@@ -8,6 +8,15 @@ import { formateDate } from 'utils/formateDate';
 const ServiceCard = ({ name, url, id }) => {
     const [showMore, setShowMore] = useState(false);
     const [appointments, setAppointments] = useState([]);
+    const [user, setUser] = useState({
+        email:"JohnDoe123@example.com",
+        name: "John Doe",
+        make: "Mazda",
+        model: "Miata",
+        modelYear: "2005"
+    })
+
+    const [idAppointment, setIdAppointment] = useState('');
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -15,11 +24,15 @@ const ServiceCard = ({ name, url, id }) => {
             setAppointments(data);
         }
         fetchAppointments();        
-    }, []);    
+    }, []);
+    
+    const handleChange = e => {
+        setIdAppointment(e.target.value);
+  }
 
-    const handleSubmit = (evt) => {
-        // evt.preventDefault();
-        console.log(evt);
+    const handleSubmit = (e) => {
+        e.preventDefault(); 
+        addAppointment(user, idAppointment);        
     }
 
 
@@ -41,15 +54,23 @@ const ServiceCard = ({ name, url, id }) => {
               height="25"
             />
         </div>
-        <form onClick={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <fieldset>
                 <legend>Available Appointments</legend>
                 {appointments.length>0 && appointments.map(({ id, serviceName, apptStartTime }) => {
                     const date = formateDate(apptStartTime);
                     return (
-                        <div key={id} >
-      <input type="radio" id={date} name={serviceName} value={date} />
-      <label htmlFor={date}>{date}</label>
+                        <div key={id} >                            
+                            <label>                                
+                                <input
+                                type="radio"
+                                name={serviceName}
+                                    value={id}
+                                    onChange={handleChange} 
+                                checked={id===idAppointment}    
+                                />
+                                {date}
+                            </label>
                         </div>
                     )
                 })
