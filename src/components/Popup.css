@@ -16,8 +16,10 @@
     position: absolute;
     left: 30%;
     right: 30%;
-    bottom: 30%;
-    top: 30%;
+    bottom: 40%;
+    top: 40%;
+    min-height: 150px;
+    min-width: 300px;
     padding: 20px;
     text-align: center;
     margin: auto;

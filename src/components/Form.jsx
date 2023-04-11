@@ -4,7 +4,7 @@ import './Form.css';
 import { getAppointments, addAppointment } from '../utils/services';
 import Button from './library/Button';
 import Popup from './Popup';
-import { user } from '../utils/user';
+import user from '../utils/user.json';
 
 const Form = ({id}) => {
     const [appointments, setAppointments] = useState([]);
