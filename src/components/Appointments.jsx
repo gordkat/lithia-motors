@@ -14,7 +14,7 @@ const Appointments = () => {
     }, []);
     
     return (<div>  
-        {services.length > 0 && services.map(({ id, serviceName, serviceDuration }) => {  
+        {services.length>0 && services.map(({ id, serviceName, serviceDuration }) => {  
             const urlSvg = findUrlSvg(id);
             return(<ServiceCard key={id} id={id} name={serviceName} duration={serviceDuration} url={urlSvg} />)
             })}        
