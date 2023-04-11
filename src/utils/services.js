@@ -1,4 +1,4 @@
-import axios from "../../node_modules/axios/index";
+import axios from 'axios';
 import toast from 'react-hot-toast';
 import { formateDate } from "./formateDate";
 
@@ -23,7 +23,6 @@ const getAppointments = async (id) => {
       const date = formateDate(app.apptStartTime);
       return { ...app, apptStartTime: date };
     });
-    // return response.data;
     return formatedResponse;
   }
   catch (error) {

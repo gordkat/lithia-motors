@@ -1,22 +1,17 @@
-import { getAppointments, addAppointment } from '../utils/services';
-import Button from './library/Button';
-import { formateDate } from 'utils/formateDate';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import './Form.css';
+import { getAppointments, addAppointment } from '../utils/services';
+import Button from './library/Button';
 import Popup from './Popup';
+import { user } from '../utils/user';
 
 const Form = ({id}) => {
     const [appointments, setAppointments] = useState([]);
-    const [user, setUser] = useState({
-        email:"JohnDoe123@example.com",
-        name: "John Doe",
-        make: "Mazda",
-        model: "Miata",
-        modelYear: "2005"
-    })
     const [idAppointment, setIdAppointment] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [selectedDate, setSelectedDate] = useState('');
+   
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -26,9 +21,6 @@ const Form = ({id}) => {
         fetchAppointments();        
     }, [id]);
 
-    //  const addIdAppointment = (id) => {
-    //     console.log(id);
-    // }
     
     const handleChange = (e) => {          
         setSelectedDate(e.target.value);         
@@ -61,14 +53,15 @@ const Form = ({id}) => {
 
     return (
         <>
-         <form onSubmit={handleSubmit}>
-            <fieldset>
-                <legend>Available Appointments</legend>
+         <form onSubmit={handleSubmit} className="form-wrapper">
+            <fieldset className='form'>
+                <legend className='form-title'>Available Appointments</legend>
                 {appointments.length>0 && appointments.map(({ id, serviceName, apptStartTime }, index) => {      
                 return (
                         <div key={id} >                            
-                            <label>                                
-                                <input
+                            <label className='label'>                                
+                            <input
+                                className='input'
                                 type="radio"
                                 name={serviceName}
                                     value={apptStartTime}
@@ -91,7 +84,7 @@ const Form = ({id}) => {
                 text={selectedDate}
                     onAddAppointment={() => { handleAddApointment(user, idAppointment); }}
                     onClosePopup={handleClosePopup}
-                />}
+                    />}               
         </>
         
     )

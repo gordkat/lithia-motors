@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
+import './Appointments.css';
 import ServiceCard from "./ServiceCard";
 import { getServices } from "utils/services";
-import { useEffect, useState } from "react";
 import { findUrlSvg } from "utils/findUrlSvg";
 
 const Appointments = () => {
@@ -13,7 +14,7 @@ const Appointments = () => {
         fetchServices();        
     }, []);
     
-    return (<div>  
+    return (<div className="appointments-wrapper">  
         {services.length>0 && services.map(({ id, serviceName, serviceDuration }) => {  
             const urlSvg = findUrlSvg(id);
             return(<ServiceCard key={id} id={id} name={serviceName} duration={serviceDuration} url={urlSvg} />)
