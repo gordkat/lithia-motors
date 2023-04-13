@@ -12,3 +12,16 @@
   font-weight: 500;
   line-height: 1.5;
 }
+
+.wrapper-contacts{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #000;
+}
+
+.number {
+  color: #0292d3;
+  font-weight: 400;
+}
