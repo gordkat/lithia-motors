@@ -4,14 +4,20 @@ import './Form.css';
 import { getAppointments, addAppointment } from '../utils/services';
 import Button from './library/Button';
 import Popup from './Popup';
-import user from '../utils/user.json';
 
 const Form = ({id}) => {
     const [appointments, setAppointments] = useState([]);
     const [idAppointment, setIdAppointment] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [selectedDate, setSelectedDate] = useState('');
-   
+    const [isFirstForm, setIsFirstForm] = useState(true);
+    const [userData, setUserData] = useState({
+        email: "",
+        name: "",
+        make: "",
+        model: "",
+        modelYear: "",
+    })
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -35,7 +41,7 @@ const Form = ({id}) => {
                 appointment.apptStartTime === selectedDate                
             )
             setIdAppointment(id);
-            setShowPopup(true);            
+            setIsFirstForm(false);
         } else {
             toast.error("Please choose an appointment");
         }
@@ -49,11 +55,36 @@ const Form = ({id}) => {
     const handleAddApointment = (user, idAppointment) => {
         addAppointment(user, idAppointment);
         setShowPopup(false);
+        setIsFirstForm(true);
+        setIdAppointment("");
+        setSelectedDate("");
+        setUserData({
+            email: "",
+        name: "",
+        make: "",
+        model: "",
+                modelYear: "",
+            }
+        )
     }
+
+    const handleChangeUserData = (event) => {
+        const { name, value } = event.target;
+        setUserData(prev => ({
+            ...prev, [name]: value,
+        }));
+    };
+    
+     const handleSubmitUserData = (event) => {
+         event.preventDefault();         
+         setShowPopup(true);
+         event.currentTarget.reset();
+         
+  };
 
     return (
         <>
-         <form onSubmit={handleSubmit} className="form-wrapper">
+         {isFirstForm && <form onSubmit={handleSubmit} className="form-wrapper">
             <fieldset className='form'>
                 <legend className='form-title'>Available Appointments</legend>
                 {appointments.length>0 && appointments.map(({ id, serviceName, apptStartTime }, index) => {      
@@ -76,15 +107,81 @@ const Form = ({id}) => {
                 })
                 }
                    
-         <Button type='submit'>book</Button>   
+         <Button type='submit'>next</Button>   
             </fieldset>
-            </form>
+            </form>}
+
+
+            {!isFirstForm && <form onSubmit={handleSubmitUserData}  className="form-user">
+                <label className='label'>Email
+                    <input
+                 className='input-data'       
+            type="email"
+            required
+            onChange={handleChangeUserData}
+            name="email"
+            value={userData.email}
+          />
+                </label>
+
+                <label className='label'>Name
+                    <input
+                        className='input-data'
+            type="text"
+            required
+            onChange={handleChangeUserData}
+            name="name"
+            value={userData.name}
+          />
+                </label>
+
+                <label className='label'>Vehicle Make
+                    <input
+                        className='input-data'
+            type="text"
+            required
+            onChange={handleChangeUserData}
+            name="make"
+            value={userData.make}
+          />
+                </label>
+
+                <label className='label'>Vehicle Model
+                    <input
+                        className='input-data'
+            type="text"
+            required
+            onChange={handleChangeUserData}
+            name="model"
+            value={userData.model}
+          />
+                </label>
+
+                <label className='label'>Vehicle Model Year
+                    <input
+                        className='input-data'
+            type="number"
+            required
+            onChange={handleChangeUserData}
+            name="modelYear"
+            value={userData.modelYear}
+          />
+                </label>
+
+                <div className='wrapper-btn-form'>
+                    <Button type='button' onClick={() => setIsFirstForm(true)}>cancel</Button>
+                    <Button type='submit'>book</Button>
+                </div>
+            </form>}
+
+
             {showPopup &&
                 <Popup
                 text={selectedDate}
-                    onAddAppointment={() => { handleAddApointment(user, idAppointment); }}
+                    onAddAppointment={() => { handleAddApointment(userData, idAppointment); }}
                     onClosePopup={handleClosePopup}
                     />}               
+             
         </>
         
     )

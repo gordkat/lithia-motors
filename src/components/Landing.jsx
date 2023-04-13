@@ -16,7 +16,16 @@ const Landing = () => {
     <div className="splash">
       <h1>{ !openServices? "Welcome to Lithia Motors" : "Select a Serevice"}</h1>
       {!openServices?  <HomePage /> :<Appointments/> }       
-      <Button onClick={handleToggleServices}>{!openServices? "get started" : "back" }</Button>
+      <Button onClick={handleToggleServices}>{!openServices ? "get started" : "back"}</Button>
+      <div className="wrapper-contacts">
+        <span> Contact us </span>
+          <a href="tel:+15558723289" className="number">
+            +1 555 872 3289
+          </a>        
+          <a href="mailto:supportbutton@lithia.com" className="number">
+             supportbutton@lithia.com
+          </a>
+      </div>
       
     </div>
   );
